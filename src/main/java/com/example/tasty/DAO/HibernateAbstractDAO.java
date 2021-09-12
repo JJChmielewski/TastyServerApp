@@ -59,7 +59,7 @@ public abstract class HibernateAbstractDAO<Entity, IdType extends Serializable>{
     public void deleteById(IdType id){
         Session session = entityManager.unwrap(Session.class);
 
-        session.createQuery("delete from "+entityClass.getName()+"where id=:id").setParameter("id",id).executeUpdate();
+        session.createQuery("delete from "+entityClass.getName()+" where id=:id").setParameter("id",id).executeUpdate();
     }
 
     @Transactional
