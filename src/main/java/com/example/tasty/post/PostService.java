@@ -1,4 +1,4 @@
-package com.example.emenu.service;
+package com.example.tasty.post;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,20 +20,20 @@ public class PostService {
     public List<String> savePostImages(List<MultipartFile> myImages, String username) throws Exception{
 
         int numberOfImages = myImages.size();
-        List<String> paths = new ArrayList<String>();
+        List<String> paths = new ArrayList<>();
         Date date = new Date();
 
-        for(int i=0;i<numberOfImages;i++){
-            byte[] bytes = myImages.get(i).getBytes();
+        for (MultipartFile myImage : myImages) {
+            byte[] bytes = myImage.getBytes();
             String tempPath = pathToImagesFileSystem + username + "/" + date.getTime() + "/";
             Path path = Paths.get(tempPath);
             Files.createDirectories(path);
 
-            tempPath += myImages.get(i).getOriginalFilename();
+            tempPath += myImage.getOriginalFilename();
 
             paths.add(tempPath);
             path = Paths.get(tempPath);
-            Files.write(path,bytes);
+            Files.write(path, bytes);
         }
 
         return paths;

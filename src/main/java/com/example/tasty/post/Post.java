@@ -1,4 +1,4 @@
-package com.example.emenu.entity;
+package com.example.tasty.post;
 
 import java.util.List;
 

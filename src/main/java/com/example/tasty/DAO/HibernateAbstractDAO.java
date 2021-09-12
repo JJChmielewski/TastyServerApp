@@ -1,4 +1,4 @@
-package com.example.emenu.service;
+package com.example.tasty.DAO;
 
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,14 +8,14 @@ import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.List;
 
-public abstract class HibernateCRUDService <Entity, IdType extends Serializable>{
+public abstract class HibernateAbstractDAO<Entity, IdType extends Serializable>{
 
     @Autowired
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     private final Class<Entity> entityClass;
 
-    public HibernateCRUDService(Class<Entity> entityClass) {
+    public HibernateAbstractDAO(Class<Entity> entityClass) {
         this.entityClass = entityClass;
     }
 
@@ -59,7 +59,7 @@ public abstract class HibernateCRUDService <Entity, IdType extends Serializable>
     public void deleteById(IdType id){
         Session session = entityManager.unwrap(Session.class);
 
-        session.createQuery("delete from "+entityClass.getName()+" where id="+id).executeUpdate();
+        session.createQuery("delete from "+entityClass.getName()+"where id=:id").setParameter("id",id).executeUpdate();
     }
 
     @Transactional
