@@ -22,7 +22,7 @@ public class ProfileService extends HibernateAbstractService<Profile, String> {
 
         Session session = this.entityManager.unwrap(Session.class);
 
-        Query<Profile> query = session.createQuery("from Profile where id=:id and password=:password")
+        Query<Profile> query = session.createQuery("from Profile where id=:id and password=:password", Profile.class)
                 .setParameter("id",profile.getId()).setParameter("password",profile.getPassword());
 
 
