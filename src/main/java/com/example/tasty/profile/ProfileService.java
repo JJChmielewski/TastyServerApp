@@ -1,9 +1,8 @@
 package com.example.tasty.profile;
 
-import com.example.tasty.profile.DAO.ProfileDAO;
-import com.example.tasty.profile.DAO.ProfileDataDAO;
-import com.example.tasty.profile.entity.Profile;
-import com.example.tasty.profile.entity.ProfileData;
+import com.example.tasty.service.HibernateAbstractService;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,71 +10,28 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class ProfileService {
+public class ProfileService extends HibernateAbstractService<Profile, String> {
 
-    private final ProfileDAO profileDAO;
-    private final ProfileDataDAO profileDataDAO;
-
-    @Autowired
-    public ProfileService(ProfileDAO profileDAO, ProfileDataDAO profileDataDAO) {
-        this.profileDAO = profileDAO;
-        this.profileDataDAO = profileDataDAO;
+    public ProfileService() {
+        super(Profile.class);
     }
 
-    @Transactional
-    public ProfileData logProfileIn(Profile profile){
 
-        if(profileDAO.isLoginSuccessful(profile)){
-            return profileDataDAO.getById(profile.getId());
-        }
-        else {
+    @Transactional
+    public Profile logIn(Profile profile){
+
+        Session session = this.entityManager.unwrap(Session.class);
+
+        Query<Profile> query = session.createQuery("from Profile where id=:id and password=:password")
+                .setParameter("id",profile.getId()).setParameter("password",profile.getPassword());
+
+
+        if(query.getResultList().isEmpty()){
             return null;
         }
-    }
 
-    @Transactional
-    public void createProfile(Profile profile){
-        if (profile.getId().length() <=45 && profile.getPassword().length()<=45){
-            profileDAO.save(profile);
+        return query.getSingleResult();
 
-
-            ProfileData tempProfileData = new ProfileData();
-            tempProfileData.setId(profile.getId());
-
-            profileDataDAO.save(tempProfileData);
-
-
-        }
-    }
-
-    @Transactional
-    public void updateProfile(Profile profile){
-        if (profile.getId().length() <=45 && profile.getPassword().length()<=45 && profileDAO.isLoginSuccessful(profile)){
-            profileDAO.update(profile);
-        }
-    }
-
-    @Transactional
-    public void deleteProfile(Profile profile){
-        if(profileDAO.isLoginSuccessful(profile)){
-            profileDAO.deleteById(profile.getId());
-            profileDataDAO.deleteById(profile.getId());
-        }
-    }
-
-    public int getFollowedNumber(String username){
-        return 0;
-    }
-    public int getFollowingNumber(String username){
-        return 0;
-    }
-
-    public List<ProfileData> getFollowedList(String username){
-        return null;
-    }
-
-    public List<ProfileData> getFollowingList(String username){
-        return null;
     }
 
 }

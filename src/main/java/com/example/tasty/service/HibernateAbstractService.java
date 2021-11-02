@@ -1,4 +1,4 @@
-package com.example.tasty.DAO;
+package com.example.tasty.service;
 
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,14 +8,14 @@ import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.List;
 
-public abstract class HibernateAbstractDAO<Entity, IdType extends Serializable>{
+public abstract class HibernateAbstractService<Entity, IdType extends Serializable>{
 
     @Autowired
     protected EntityManager entityManager;
 
     private final Class<Entity> entityClass;
 
-    public HibernateAbstractDAO(Class<Entity> entityClass) {
+    public HibernateAbstractService(Class<Entity> entityClass) {
         this.entityClass = entityClass;
     }
 
