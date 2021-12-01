@@ -28,12 +28,6 @@ public class Profile {
     public String likedPostsDB;
 
 
-    @Transient
-    private int numberOfProfilesFollowed;
-    @Transient
-    private int numberOfProfilesFollowing;
-
-
     public Profile() {
     }
 
@@ -52,7 +46,7 @@ public class Profile {
     }
 
     public void likedPostsToJSON(){
-        String[] tempTable = this.likedPostsDB.split(",");
+        String[] tempTable = this.likedPostsDB.split(";");
 
         if(tempTable == null){
             this.likedPosts =null;
@@ -72,8 +66,6 @@ public class Profile {
                 "id='" + id + '\'' +
                 ", password='" + password + '\'' +
                 ", description='" + description + '\'' +
-                ", numberOfProfilesFollowed=" + numberOfProfilesFollowed +
-                ", numberOfProfilesFollowing=" + numberOfProfilesFollowing +
                 '}';
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(origins = {"http://127.0.0.1:5500", "http://192.168.0.136:5500"})
 public class ProfileController {
 
     private final ProfileService profileService;
@@ -28,6 +28,7 @@ public class ProfileController {
         }
         else {
             temp.setPassword(null);
+            temp.likedPostsToJSON();
         }
         return temp;
     }
@@ -37,8 +38,6 @@ public class ProfileController {
 
         profileService.save(profile);
 
-
-
     }
 
     public void deleteProfile(){}
@@ -46,7 +45,10 @@ public class ProfileController {
     @PostMapping("/profile")
     public void updateProfile(@RequestBody Profile profile){
         profile.likedPostsToDB();
-        profileService.update(profile);
+        Profile temp = profileService.getById(profile.getId());
+        temp.likedPostsDB = profile.likedPostsDB;
+        temp.setDescription(profile.getDescription());
+        profileService.update(temp);
     }
 
     public void blockProfile(){}
