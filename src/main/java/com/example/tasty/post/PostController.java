@@ -1,6 +1,9 @@
 package com.example.tasty.post;
 
 import com.example.tasty.post.comment.CommentService;
+import com.example.tasty.profile.Profile;
+import com.example.tasty.profile.ProfileService;
+import com.example.tasty.service.HibernateAbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,11 +17,13 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+    private final ProfileService profileService;
     private final CommentService commentService;
 
     @Autowired
-    public PostController(PostService postService, CommentService commentService) {
+    public PostController(PostService postService, ProfileService profileService, CommentService commentService) {
         this.postService = postService;
+        this.profileService = profileService;
         this.commentService = commentService;
     }
 
@@ -43,9 +48,14 @@ public class PostController {
     }
 
     @GetMapping(value = "/post/{page}")
-    public List<Post> getPosts(@PathVariable ("page") int pageNumber){
+    public List<Post> getPosts(@PathVariable ("page") int pageNumber, @RequestParam(name = "username", required = false) String username){
 
-        List<Post> posts = postService.getPage(pageNumber);
+        List<Post> posts;
+
+        if(username == null)
+            posts = postService.getPage(pageNumber);
+        else
+            posts = postService.getPage(pageNumber,username);
 
         for(Post temp:posts){
             temp.setUpTablesForJSON();
@@ -56,9 +66,18 @@ public class PostController {
         return posts;
     }
 
-    public void addComment(){}
+    public void addComment(){
 
-    public void likePost(){}
+
+
+    }
+
+    @PostMapping(value = "/post/like")
+    public void likePost(@RequestBody Profile profile ){
+
+        profileService.update(profile);
+
+    }
 
     public void updatePost(){}
 

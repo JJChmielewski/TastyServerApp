@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.File;
+
 @Controller
 @RequestMapping("/api")
 public class ImageController {
@@ -23,6 +25,28 @@ public class ImageController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type","image/jpeg");
         Resource resource = new FileSystemResource(pathToImage);
+
+        return new ResponseEntity<>(resource,headers,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/profilePhoto")
+    @ResponseBody
+    public ResponseEntity<Resource> showProfileImage(@RequestParam ("username") String username){
+
+        String pathToImage = "/Users/Chmielu/TastyFileSystem/"+username+"/profilePhoto.jpg";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type","image/jpeg");
+
+        Resource resource;
+
+        File file = new File(pathToImage);
+        if(file.isFile()){
+            resource = new FileSystemResource(pathToImage);
+        }
+        else {
+            resource = new FileSystemResource("/Users/Chmielu/TastyFileSystem/defaultProfilePhoto.jpg");
+        }
 
         return new ResponseEntity<>(resource,headers,HttpStatus.OK);
     }

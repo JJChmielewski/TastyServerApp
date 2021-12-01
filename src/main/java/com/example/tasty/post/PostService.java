@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,6 +50,12 @@ public class PostService extends HibernateAbstractService<Post, Integer> {
         Session session = entityManager.unwrap(Session.class);
 
         return session.createQuery("from Post order by date desc ").setFirstResult(pageNumber).setMaxResults(5).getResultList();
+    }
+
+    public  List<Post> getPage(int pageNumber, String username){
+        Session session = entityManager.unwrap(Session.class);
+
+        return session.createQuery("from Post p where p.author=:author order by date desc ").setFirstResult(pageNumber).setMaxResults(5).setParameter("author",username).getResultList();
     }
 
 }

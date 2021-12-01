@@ -26,7 +26,9 @@ public class ProfileController {
         if(temp == null) {
             return new Profile();
         }
-
+        else {
+            temp.setPassword(null);
+        }
         return temp;
     }
 
@@ -35,11 +37,17 @@ public class ProfileController {
 
         profileService.save(profile);
 
+
+
     }
 
     public void deleteProfile(){}
 
-    public void updateProfile(){}
+    @PostMapping("/profile")
+    public void updateProfile(@RequestBody Profile profile){
+        profile.likedPostsToDB();
+        profileService.update(profile);
+    }
 
     public void blockProfile(){}
 
