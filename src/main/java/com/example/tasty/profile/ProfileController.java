@@ -51,6 +51,16 @@ public class ProfileController {
         profileService.update(temp);
     }
 
+    @GetMapping("/profile")
+    public Profile getProfile(@RequestParam ("username") String profileID){
+
+        Profile temp = profileService.getById(profileID);
+
+        temp.likedPostsToJSON();
+
+        return temp;
+    }
+
     public void blockProfile(){}
 
     public void warnProfile(){}
