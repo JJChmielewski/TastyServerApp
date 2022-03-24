@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = {"http://127.0.0.1:5500", "http://192.168.0.136:5500"})
+@CrossOrigin(origins = "*")
 public class SecurityController {
 
     private final WebTokenHandler webTokenHandler;
