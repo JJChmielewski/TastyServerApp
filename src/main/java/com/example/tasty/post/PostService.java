@@ -15,8 +15,7 @@ import java.util.List;
 @Service
 public class PostService extends HibernateAbstractService<Post, Integer> {
 
-    @Value("${post.images.filesystem.path}")
-    private String pathToImagesFileSystem;
+    private String pathToImagesFileSystem = System.getProperty("user.dir") + "/TastyFileSystem";
 
     public PostService() {
         super(Post.class);

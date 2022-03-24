@@ -47,7 +47,7 @@ public class ProfileController {
         profile.likedPostsToDB();
         Profile temp = profileService.getById(profile.getId());
         temp.likedPostsDB = profile.likedPostsDB;
-        temp.setDescription(profile.getDescription());
+        temp.setDescription("lolix");
         profileService.update(temp);
     }
 

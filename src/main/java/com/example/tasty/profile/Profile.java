@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 public class Profile {
 
+
     @Id
     @Column(name = "id")
     private String id;
@@ -46,6 +47,9 @@ public class Profile {
     }
 
     public void likedPostsToJSON(){
+        if(likedPostsDB == null)
+            return;
+
         String[] tempTable = this.likedPostsDB.split(";");
 
         if(tempTable == null){

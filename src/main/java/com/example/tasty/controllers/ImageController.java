@@ -33,7 +33,7 @@ public class ImageController {
     @ResponseBody
     public ResponseEntity<Resource> showProfileImage(@RequestParam ("username") String username){
 
-        String pathToImage = "/Users/Chmielu/TastyFileSystem/"+username+"/profilePhoto.jpg";
+        String pathToImage = System.getProperty("user.dir")+ "/TastyFileSystem/"+username+"/profilePhoto.jpg";
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type","image/jpeg");
