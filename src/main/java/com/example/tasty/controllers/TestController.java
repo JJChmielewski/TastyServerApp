@@ -22,8 +22,6 @@ public class TestController {
     @GetMapping("/test")
     public void test(){
 
-
-
         WebToken webToken = webTokenHandler.generateToken("Chmielu");
 
         System.out.println(webToken);

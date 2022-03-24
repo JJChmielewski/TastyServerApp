@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {"http://127.0.0.1:5500", "http://192.168.0.136:5500"})
+@CrossOrigin(origins = "*")
 @RequestMapping("/api")
 public class PostController {
 
