@@ -45,7 +45,7 @@ public class ImageController {
             resource = new FileSystemResource(pathToImage);
         }
         else {
-            resource = new FileSystemResource("/Users/Chmielu/TastyFileSystem/defaultProfilePhoto.jpg");
+            resource = new FileSystemResource(System.getProperty("user.dir")+ "/TastyFileSystem/defaultProfilePhoto.jpg");
         }
 
         return new ResponseEntity<>(resource,headers,HttpStatus.OK);
